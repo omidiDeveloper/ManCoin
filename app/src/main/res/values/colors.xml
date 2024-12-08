@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- Dark Mode Colors -->
+    <color name="background_dark">#121212</color>
+    <color name="primary_dark">#1DA1F2</color>
+    <color name="secondary_dark">#FF9900</color>
+    <color name="text_primary_dark">#FFFFFF</color>
+    <color name="text_secondary_dark">#AAAAAA</color>
+    <color name="light_on_box">#212128</color>
+    <color name="greenColor">#22C55E</color>
+
+</resources>

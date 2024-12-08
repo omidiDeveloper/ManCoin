@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Dark Theme -->
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorAccent">@color/secondary_dark</item>
+        <item name="android:background">@color/background_dark</item>
+        <item name="android:textColorPrimary">@color/text_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_secondary_dark</item>
+
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+    </style>
+
+
+
+
+
+
+
+    <!-- font family for project -->
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+
+</resources>

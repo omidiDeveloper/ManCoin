@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/background_dark"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/background_dark"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/shape_whatchlist">
+
+            <ImageView
+                android:id="@+id/img_coin_rec_md_home"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/shape_oval_coin"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon"
+                app:layout_constraintBottom_toBottomOf="@+id/saprkView_md_Home"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.robinhood.spark.SparkView
+                android:id="@+id/saprkView_md_Home"
+                android:layout_width="100dp"
+                android:layout_height="42dp"
+                style="@style/spark_SparkView"
+                android:background="@color/light_on_box"
+                android:layout_gravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spark_scrubEnabled="true" />
+
+            <TextView
+                android:id="@+id/txt_name_coin_md_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BTC"
+                android:layout_marginTop="12dp"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:textSize="@dimen/textStyleMedium"
+                android:background="@color/light_on_box"
+                app:layout_constraintStart_toStartOf="@+id/img_coin_rec_md_home"
+                app:layout_constraintTop_toBottomOf="@+id/img_coin_rec_md_home" />
+
+            <TextView
+                android:id="@+id/txt_plus_or_down_rec_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:background="@color/light_on_box"
+                android:textSize="@dimen/textStyleMedium"
+                android:textColor="@color/greenColor"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_name_coin_md_home"
+                app:layout_constraintStart_toEndOf="@+id/txt_name_coin_md_home"
+                app:layout_constraintTop_toTopOf="@+id/txt_name_coin_md_home" />
+
+            <TextView
+                android:id="@+id/txt_percent_rec_md_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10.5%"
+                android:background="@color/light_on_box"
+                android:textColor="@color/greenColor"
+                android:textSize="@dimen/textStyleMedium"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_plus_or_down_rec_home"
+                app:layout_constraintStart_toEndOf="@+id/txt_plus_or_down_rec_home"
+                app:layout_constraintTop_toTopOf="@+id/txt_plus_or_down_rec_home" />
+
+            <TextView
+                android:id="@+id/txt_price_watchlist_md_home"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_height="wrap_content"
+                android:text="$102,000.10"
+                android:textColor="@color/text_secondary_dark"
+                android:textSize="@dimen/textStyleSmall"
+                android:background="@color/light_on_box"
+                app:layout_constraintStart_toStartOf="@+id/txt_name_coin_md_home"
+                app:layout_constraintTop_toBottomOf="@+id/txt_name_coin_md_home" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/shape_whatchlist">
+
+            <ImageView
+                android:id="@+id/img_usdt_watch_list_md_home"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/shape_oval_coin"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon"
+                app:layout_constraintBottom_toBottomOf="@+id/saprkView_usdt_md_Home"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.robinhood.spark.SparkView
+                android:id="@+id/saprkView_usdt_md_Home"
+                android:layout_width="100dp"
+                android:layout_height="42dp"
+                style="@style/spark_SparkView"
+                android:background="@color/light_on_box"
+                android:layout_gravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spark_scrubEnabled="true" />
+
+            <TextView
+                android:id="@+id/txt_name_usdt_md_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USDT"
+                android:layout_marginTop="12dp"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:textSize="@dimen/textStyleMedium"
+                app:layout_constraintStart_toStartOf="@+id/img_usdt_watch_list_md_home"
+                app:layout_constraintTop_toBottomOf="@+id/img_usdt_watch_list_md_home" />
+
+            <TextView
+                android:id="@+id/txt_plus_or_down_usdt_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textSize="@dimen/textStyleMedium"
+                android:textColor="@color/greenColor"
+                android:layout_marginStart="8dp"
+                android:background="@color/light_on_box"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_name_usdt_md_home"
+                app:layout_constraintStart_toEndOf="@+id/txt_name_usdt_md_home"
+                app:layout_constraintTop_toTopOf="@+id/txt_name_usdt_md_home" />
+
+            <TextView
+                android:id="@+id/txt_percent_usdt_watch_md_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.5%"
+                android:background="@color/light_on_box"
+                android:textColor="@color/greenColor"
+                android:textSize="@dimen/textStyleMedium"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_plus_or_down_usdt_home"
+                app:layout_constraintStart_toEndOf="@+id/txt_plus_or_down_usdt_home"
+                app:layout_constraintTop_toTopOf="@+id/txt_plus_or_down_usdt_home" />
+
+            <TextView
+                android:id="@+id/txt_price_usdt_watchlist_md_home"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_height="wrap_content"
+                android:text="$1.01"
+                android:background="@color/light_on_box"
+                android:textColor="@color/text_secondary_dark"
+                android:textSize="@dimen/textStyleSmall"
+                app:layout_constraintStart_toStartOf="@+id/txt_name_usdt_md_home"
+                app:layout_constraintTop_toBottomOf="@+id/txt_name_usdt_md_home" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explore the market"
+            android:textColor="@color/text_primary_dark"
+            android:textSize="@dimen/textStyleMedium"
+            android:textStyle="bold"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="6dp"
+            android:text="This is once of the news that you can see no one knows about you how ever this is th last chance for get your coins from market"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="@dimen/textStyleSmall"
+            android:textColor="@color/text_secondary_dark"/>
+
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/module_recycler_home"/>
+
+</LinearLayout>

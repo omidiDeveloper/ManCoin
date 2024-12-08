@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="20dp"
+    android:background="@drawable/shape_whatchlist"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp"
+    android:paddingTop="12dp"
+    android:layout_marginTop="8dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_md_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_recycler_coin_view" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_ecploremore_md_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Explore More"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:textSize="@dimen/textStyleMedium"
+        android:layout_marginTop="16dp"
+        android:textStyle="normal"
+        android:textAllCaps="false"
+        android:background="@drawable/shape_rec_blue"
+        android:textColor="@color/text_primary_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_md_home" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

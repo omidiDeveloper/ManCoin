@@ -8,7 +8,7 @@
     <color name="secondary_dark">#FF9900</color>
     <color name="text_primary_dark">#FFFFFF</color>
     <color name="text_secondary_dark">#AAAAAA</color>
-    <color name="light_on_box">#212128</color>
+    <color name="light_on_box">#201e2c</color>
     <color name="greenColor">#22C55E</color>
 
 </resources>

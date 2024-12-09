@@ -53,5 +53,10 @@ dependencies {
     //spark view =>
     implementation("com.robinhood.spark:spark:1.2.0")
 
+    //swipe refresh =>
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+
+    //material implement =>
+    implementation ("com.google.android.material:material:1.9.0")
 
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_dark"
     app:elevation="3dp"
-    android:layout_height="75dp">
+    android:layout_height="60dp">
 
 
     <androidx.appcompat.widget.Toolbar

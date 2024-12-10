@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -59,4 +60,7 @@ dependencies {
     //material implement =>
     implementation ("com.google.android.material:material:1.9.0")
 
+    //retrofit =>
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
 }

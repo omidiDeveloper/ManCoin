@@ -14,6 +14,8 @@ import com.example.mancoin.fragments.fragmentNews
 
 class MarketActivity : AppCompatActivity() {
     lateinit var binding : ActivityMarketBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMarketBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -44,6 +46,9 @@ class MarketActivity : AppCompatActivity() {
             true
         }
     }
+
+
+    //for replace the fragments in your  bottom navigation with click use by this fun
     fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.main, fragment)

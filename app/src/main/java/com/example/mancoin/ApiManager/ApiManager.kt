@@ -1,13 +1,16 @@
 package com.example.mancoin.ApiManager
 
-import com.example.mancoin.ApiManager.model.getNews
+import android.util.Log
+import com.example.mancoin.data.ApiResponse
+import com.example.mancoin.data.CoinData
+import com.example.mancoin.data.getNews
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiManager {
+class ApiManager(apiService: ApiService) {
     private val apiService: ApiService
 
     init {
@@ -17,7 +20,7 @@ class ApiManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-        apiService = retrofit.create(ApiService::class.java)
+        this.apiService = retrofit.create(ApiService::class.java)
     }
 
     fun getNews(apiCallBack: ApiCallBack<ArrayList<Pair<String, String>>>) {
@@ -43,6 +46,25 @@ class ApiManager {
             override fun onFailure(call: Call<getNews>, t: Throwable) {
                 val errorMessage = t.message ?: "Unknown error occurred"
                 apiCallBack.onError(errorMessage)
+            }
+        })
+    }
+
+
+    fun getCoinsData(apiCallback: ApiCallBack<List<CoinData>>) {
+        apiService.getTopCoins().enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val data = response.body()!!.Data
+                    apiCallback.onSuccess(data)
+                } else {
+                    apiCallback.onError("Response error or body is null")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                apiCallback.onError(t.message ?: "Unknown error occurred")
+                Log.v("msgErrorOf" , t.message!!)
             }
         })
     }

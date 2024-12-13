@@ -1,7 +1,7 @@
 package com.example.mancoin.ApiManager
 
-import com.example.mancoin.ApiManager.model.TopCoins
-import com.example.mancoin.ApiManager.model.getNews
+import com.example.mancoin.data.ApiResponse
+import com.example.mancoin.data.getNews
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -16,10 +16,9 @@ interface ApiService {
     ) : Call<getNews>
 
     @Headers(API_KEY)
-    @GET("top/totalvolfull/")
+    @GET("top/totalvolfull")
     fun getTopCoins(
-        @Query("limit") limit_coins : Int = 5 ,
-        @Query("tsym") toSymbol : String = "USD"
-    ) : Call<TopCoins>
-
+        @Query("tsym") toSymbol: String = "USD",
+        @Query("limit") limit: Int = 5
+    ): Call<ApiResponse>
 }

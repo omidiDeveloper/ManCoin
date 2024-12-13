@@ -1,6 +1,8 @@
 package com.example.mancoin.activities
 
+import CoinsFragment
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.example.mancoin.R
 import com.example.mancoin.databinding.ActivityMarketBinding
 import com.example.mancoin.fragments.fragmentExplore
-import com.example.mancoin.fragments.fragmentHome
 import com.example.mancoin.fragments.fragmentNews
 
 class MarketActivity : AppCompatActivity() {
@@ -26,12 +27,12 @@ class MarketActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        replaceFragment(fragmentHome())
+        replaceFragment(CoinsFragment())
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.btm_nav_home -> {
-                    replaceFragment(fragmentHome())
+                    replaceFragment(CoinsFragment())
                 }
 
                 R.id.bm_nav_explore -> {

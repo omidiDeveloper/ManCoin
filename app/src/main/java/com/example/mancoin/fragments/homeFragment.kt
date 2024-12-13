@@ -1,3 +1,5 @@
+package com.example.mancoin.fragments
+
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -6,20 +8,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.mancoin.ApiManager.ApiManager
 import com.example.mancoin.ApiManager.IMAGE_BASE_URL
 import com.example.mancoin.ApiManager.RetrofitClient
-import com.example.mancoin.R
 import com.example.mancoin.adapter.CoinAdapter
 import com.example.mancoin.data.CoinData
 import com.example.mancoin.databinding.FragmentHomeBinding
-import com.example.mancoin.fragments.fragmentExplore
 
 class CoinsFragment : Fragment() {
 

@@ -10,5 +10,6 @@
     <color name="text_secondary_dark">#AAAAAA</color>
     <color name="light_on_box">#201e2c</color>
     <color name="greenColor">#22C55E</color>
+    <color name="redColor">#EF4444</color>
 
 </resources>

@@ -2,12 +2,15 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,14 +33,9 @@ class CoinsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-
-
-
-
         return binding.root
     }
 
@@ -47,7 +45,7 @@ class CoinsFragment : Fragment() {
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
         initUI()
-
+        swipeRefresh()
 
     }
 
@@ -57,6 +55,18 @@ class CoinsFragment : Fragment() {
         fetchData()
         getNewsFromApi()
         fetchCryptoData()
+    }
+
+    //for swipe refresh =>
+    private fun swipeRefresh(){
+        binding.swipeRefreshMdHome.setOnRefreshListener {
+            initUI()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.swipeRefreshMdHome.isRefreshing = false
+            } , 2000)
+
+        }
+
     }
 
     //this is for find btc and eth coins for set to watch list =>
@@ -89,9 +99,51 @@ class CoinsFragment : Fragment() {
                 .into(binding.moduleMainMdHome.imgCoinRecMdHome)
 
             binding.moduleMainMdHome.txtNameCoinMdHome.text = btcData.CoinInfo.Name
-            binding.moduleMainMdHome.txtPriceWatchlistMdHome.text = btcData.RAW.USD.PRICE.toString()
-            binding.moduleMainMdHome.txtPercentRecMdHome.text =
-                btcData.RAW.USD.VOLUME24HOUR.toString()
+
+            val priceValue = btcData.RAW.USD.PRICE
+            val indexDot = priceValue.toString().indexOf('.')
+            binding.moduleMainMdHome.txtPriceWatchlistMdHome.text =
+                priceValue.toString().substring(0, indexDot + 3) + " $"
+
+
+            val changeValue = btcData.RAW.USD.VOLUME24HOUR
+            if (changeValue > 0) {
+                binding.moduleMainMdHome.txtPercentRecMdHome.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.greenColor
+                    )
+                )
+                binding.moduleMainMdHome.txtPercentRecMdHome.text =
+                    changeValue.toString().take(4) + " $"
+                binding.moduleMainMdHome.txtPlusOrDownRecHome.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.greenColor
+                    )
+                )
+                binding.moduleMainMdHome.txtPlusOrDownRecHome.text = "+ "
+            } else if (changeValue < 0) {
+                binding.moduleMainMdHome.txtPercentRecMdHome.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.redColor
+                    )
+                )
+                binding.moduleMainMdHome.txtPlusOrDownRecHome.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.redColor
+                    )
+                )
+                binding.moduleMainMdHome.txtPercentRecMdHome.text =
+                    changeValue.toString().take(5) + "$"
+                binding.moduleMainMdHome.txtPlusOrDownRecHome.text = "- "
+            } else {
+                binding.moduleMainMdHome.txtPercentRecMdHome.text = "0%"
+                binding.moduleMainMdHome.txtPlusOrDownRecHome.text = ""
+            }
+
             binding.moduleMainMdHome.txtPlusOrDownRecHome.setTextColor(
                 if (btcData.RAW.USD.VOLUME24HOUR >= 0) Color.GREEN else Color.RED
             )
@@ -106,13 +158,53 @@ class CoinsFragment : Fragment() {
                 .into(binding.moduleMainMdHome.imgUsdtWatchListMdHome)
 
             binding.moduleMainMdHome.txtNameUsdtMdHome.text = ethData.CoinInfo.Name
+
+            val priceValue = ethData.RAW.USD.PRICE
+            val indexDot = priceValue.toString().indexOf('.')
             binding.moduleMainMdHome.txtPriceUsdtWatchlistMdHome.text =
-                ethData.RAW.USD.PRICE.toString()
-            binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.text =
-                ethData.RAW.USD.VOLUME24HOUR.toString()
-            binding.moduleMainMdHome.txtPlusOrDownUsdtHome.setTextColor(
-                if (ethData.RAW.USD.VOLUME24HOUR >= 0) Color.GREEN else Color.RED
-            )
+                priceValue.toString().substring(0, indexDot + 3) + " $"
+
+
+            val changeValue = ethData.RAW.USD.VOLUME24HOUR
+            if (changeValue > 0) {
+                binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.greenColor
+                    )
+                )
+                binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.text =
+                    changeValue.toString().take(4) + " $"
+                binding.moduleMainMdHome.txtPlusOrDownUsdtHome.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.greenColor
+                    )
+                )
+                binding.moduleMainMdHome.txtPlusOrDownUsdtHome.text = "+ "
+            }
+            else if (changeValue < 0) {
+                binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.redColor
+                    )
+                )
+                binding.moduleMainMdHome.txtPlusOrDownUsdtHome.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.redColor
+                    )
+                )
+                binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.text =
+                    changeValue.toString().take(5) + " $"
+                binding.moduleMainMdHome.txtPlusOrDownUsdtHome.text = "- "
+            }
+            else {
+                binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.text = "0 %"
+                binding.moduleMainMdHome.txtPlusOrDownUsdtHome.text = ""
+            }
+
         }
     }
 

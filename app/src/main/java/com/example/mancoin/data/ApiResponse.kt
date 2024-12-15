@@ -24,6 +24,6 @@ data class RawData(
 
 data class USDData(
     val PRICE: Double,
-    val VOLUME24HOUR: Double,
+    val CHANGE24HOUR: Double,
     val IMAGEURL : String
 )

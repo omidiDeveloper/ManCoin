@@ -10,9 +10,10 @@ import com.example.mancoin.ApiManager.ApiService
 import com.example.mancoin.databinding.ActivityMarketBinding
 import com.example.mancoin.databinding.FragmentExploreBinding
 import com.example.mancoin.databinding.FragmentHomeBinding
+import com.example.mancoin.databinding.FragmentNewsBinding
 
-class fragmentExplore : Fragment() {
-    lateinit var binding: FragmentExploreBinding
+class newsFragment : Fragment() {
+    lateinit var binding: FragmentNewsBinding
 
 
     override fun onCreateView(
@@ -22,7 +23,7 @@ class fragmentExplore : Fragment() {
     ): View {
 
 
-        binding = FragmentExploreBinding.inflate(layoutInflater, container, false)
+        binding = FragmentNewsBinding.inflate(layoutInflater, container, false)
 
         return binding.root
     }

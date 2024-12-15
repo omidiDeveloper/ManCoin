@@ -1,57 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+    android:orientation="vertical">
+
     <include
         android:id="@+id/module_toolbar_md_explore"
-        layout="@layout/module_toolbar"/>
+        layout="@layout/module_toolbar" />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <SearchView
+        android:id="@+id/search_box_md_explore"
+        style="@style/Widget.AppCompat.SearchView"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        style="@style/Widget.AppCompat.SearchView"
-        android:maxLines="1"
-        android:maxLength="30"
-        android:hint="Search"
-        android:paddingStart="24dp"
-        android:drawablePadding="8dp"
-        android:drawableStart="@drawable/ic_explore"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:id="@+id/search_box_md_explore"
-        android:background="@drawable/shape_searchbox"/>
+        android:queryHint="Search Coins"
+        android:iconifiedByDefault="false"
+        android:layout_marginHorizontal="12dp"
+        android:background="@drawable/shape_searchbox"
+        android:queryBackground="@drawable/shape_searchbox"
+        />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_md_explore"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/shape_whatchlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_margin="12dp"
-                android:background="@drawable/shape_whatchlist"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_md_explore"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/recycler_md_explore"
-                    tools:itemCount="10"
-                    tools:listitem="@layout/item_recycler_coin_view"
-                    android:background="@drawable/shape_searchbox"/>
+        </LinearLayout>
 
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

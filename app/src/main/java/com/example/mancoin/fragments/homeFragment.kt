@@ -8,11 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.mancoin.ApiManager.ApiManager
@@ -22,18 +20,15 @@ import com.example.mancoin.R
 import com.example.mancoin.adapter.CoinAdapter
 import com.example.mancoin.data.CoinData
 import com.example.mancoin.databinding.FragmentHomeBinding
-import com.example.mancoin.fragments.fragmentExplore
 
-class CoinsFragment : Fragment() {
+class homeFragment : Fragment() {
 
     private lateinit var apiManager: ApiManager
     private lateinit var coinAdapter: CoinAdapter
     private lateinit var binding: FragmentHomeBinding
     lateinit var dataNews: ArrayList<Pair<String, String>>
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -106,7 +101,7 @@ class CoinsFragment : Fragment() {
                 priceValue.toString().substring(0, indexDot + 3) + " $"
 
 
-            val changeValue = btcData.RAW.USD.VOLUME24HOUR
+            val changeValue = btcData.RAW.USD.CHANGE24HOUR
             if (changeValue > 0) {
                 binding.moduleMainMdHome.txtPercentRecMdHome.setTextColor(
                     ContextCompat.getColor(
@@ -145,7 +140,7 @@ class CoinsFragment : Fragment() {
             }
 
             binding.moduleMainMdHome.txtPlusOrDownRecHome.setTextColor(
-                if (btcData.RAW.USD.VOLUME24HOUR >= 0) Color.GREEN else Color.RED
+                if (btcData.RAW.USD.CHANGE24HOUR >= 0) Color.GREEN else Color.RED
             )
         }
     }
@@ -165,7 +160,7 @@ class CoinsFragment : Fragment() {
                 priceValue.toString().substring(0, indexDot + 3) + " $"
 
 
-            val changeValue = ethData.RAW.USD.VOLUME24HOUR
+            val changeValue = ethData.RAW.USD.CHANGE24HOUR
             if (changeValue > 0) {
                 binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.setTextColor(
                     ContextCompat.getColor(
@@ -248,7 +243,6 @@ class CoinsFragment : Fragment() {
     //this is for show all items when aren't empty =>
     private fun fetchData() {
         apiManager.getCoinsData(object : ApiManager.ApiCallBack<List<CoinData>> {
-
 
             override fun onSuccess(data: List<CoinData>) {
                 data.forEach { coin ->

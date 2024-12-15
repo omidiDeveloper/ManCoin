@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
+import kotlin.math.max
 
 interface ApiService {
 
@@ -21,4 +22,13 @@ interface ApiService {
         @Query("tsym") toSymbol: String = "USD",
         @Query("limit") limit: Int = 5
     ): Call<ApiResponse>
+
+    @Headers(API_KEY)
+    @GET("top/totalvolfull")
+    fun getTopCoinsExplore(
+        @Query("tsym") toSymbol: String = "USD",
+        @Query("limit") limit: Int = 30
+    ): Call<ApiResponse>
+
+
 }

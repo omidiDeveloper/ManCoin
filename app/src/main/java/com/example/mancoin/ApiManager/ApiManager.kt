@@ -3,6 +3,7 @@ package com.example.mancoin.ApiManager
 import android.util.Log
 import com.example.mancoin.data.ApiResponse
 import com.example.mancoin.data.CoinData
+import com.example.mancoin.data.TopCoins
 import com.example.mancoin.data.getNews
 import retrofit2.Call
 import retrofit2.Callback
@@ -68,6 +69,27 @@ class ApiManager(apiService: ApiService) {
             }
         })
     }
+
+    fun getExploreCoinsData(apiCallback: ApiCallBack<List<CoinData>>) {
+
+        apiService.getTopCoinsExplore().enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val data = response.body()!!.Data
+                    apiCallback.onSuccess(data)
+                } else {
+                    apiCallback.onError("Response error or body is null")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                apiCallback.onError(t.message ?: "Unknown error occurred")
+                Log.v("msgErrorOf" , t.message!!)
+            }
+        })
+    }
+
+
 
     interface ApiCallBack<T> {
         fun onSuccess(data: T)

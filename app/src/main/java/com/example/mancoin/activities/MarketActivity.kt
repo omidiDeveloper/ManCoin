@@ -1,8 +1,7 @@
 package com.example.mancoin.activities
 
-import CoinsFragment
+import homeFragment
 import android.os.Bundle
-import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,8 +9,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.mancoin.R
 import com.example.mancoin.databinding.ActivityMarketBinding
-import com.example.mancoin.fragments.fragmentExplore
-import com.example.mancoin.fragments.fragmentNews
+import com.example.mancoin.fragments.exploreFragment
+import com.example.mancoin.fragments.newsFragment
 
 class MarketActivity : AppCompatActivity() {
     lateinit var binding : ActivityMarketBinding
@@ -27,20 +26,20 @@ class MarketActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        replaceFragment(CoinsFragment())
+        replaceFragment(homeFragment())
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.btm_nav_home -> {
-                    replaceFragment(CoinsFragment())
+                    replaceFragment(homeFragment())
                 }
 
                 R.id.bm_nav_explore -> {
-                    replaceFragment(fragmentExplore())
+                    replaceFragment(exploreFragment())
                 }
 
                 R.id.bm_nav_news -> {
-                    replaceFragment(fragmentNews())
+                    replaceFragment(newsFragment())
                 }
             }
             binding.bottomNavigation.menu.getItem(1).isChecked = false

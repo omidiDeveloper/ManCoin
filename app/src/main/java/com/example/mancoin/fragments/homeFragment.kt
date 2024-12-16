@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.mancoin.ApiManager.ApiManager
 import com.example.mancoin.ApiManager.IMAGE_BASE_URL
 import com.example.mancoin.ApiManager.RetrofitClient
+import com.example.mancoin.R
 import com.example.mancoin.adapter.CoinAdapter
 import com.example.mancoin.data.CoinData
 import com.example.mancoin.databinding.FragmentHomeBinding

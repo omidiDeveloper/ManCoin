@@ -10,16 +10,19 @@
         android:id="@+id/module_toolbar_md_explore"
         layout="@layout/module_toolbar" />
 
-    <SearchView
+    <EditText
         android:id="@+id/search_box_md_explore"
         style="@style/Widget.AppCompat.SearchView"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:queryHint="Search Coins"
-        android:iconifiedByDefault="false"
+        android:drawablePadding="8dp"
+        android:paddingStart="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:drawableStart="@drawable/ic_explore"
+        android:hint="Search Coins"
         android:layout_marginHorizontal="12dp"
         android:background="@drawable/shape_searchbox"
-        android:queryBackground="@drawable/shape_searchbox"
         />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

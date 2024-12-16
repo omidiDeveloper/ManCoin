@@ -24,12 +24,15 @@ class exploreFragment : Fragment() {
     lateinit var binding: FragmentExploreBinding
     lateinit var apiManager: ApiManager
     lateinit var coinAdapter: CoinAdapter
+    private var coinMutedListSearch: MutableList<CoinData> = mutableListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         binding = FragmentExploreBinding.inflate(inflater, container, false)
         Log.v("msgShowFragment", "is running")
+
         return binding.root
     }
 
@@ -38,8 +41,10 @@ class exploreFragment : Fragment() {
         // Initialize Retrofit and APIManager
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
+
         initUI()
         swipeRefreshLayout()
+        searchItemList()
     }
 
     private fun initUI() {
@@ -48,6 +53,7 @@ class exploreFragment : Fragment() {
 
     }
 
+    //for refresh all data
     private fun swipeRefreshLayout() {
 
         binding.swipeRefreshMdExplore.setOnRefreshListener {
@@ -61,6 +67,7 @@ class exploreFragment : Fragment() {
 
     }
 
+    //for show data on recycler and show to user
     private fun setupRecyclerView() {
         coinAdapter = CoinAdapter(emptyList())
         binding.recyclerMdExplore.apply {
@@ -69,23 +76,15 @@ class exploreFragment : Fragment() {
         }
     }
 
+    //for get data from api
     private fun getCoinExploreDataFromAPi() {
 
         apiManager.getExploreCoinsData(object : ApiManager.ApiCallBack<List<CoinData>> {
             override fun onSuccess(data: List<CoinData>) {
-                val uniqeCoinsList = mutableListOf<CoinData>()
-                data.forEach { coin ->
-                    if (uniqeCoinsList.none { it.CoinInfo.Id == coin.CoinInfo.Id }) {
-                        uniqeCoinsList.add(coin)
-                        Log.d(
-                            "API_DATA_EXPLORE",
-                            "Coin: ${coin.CoinInfo.FullName}, RAW: ${coin.RAW}"
-                        )
-                    }
+                val validData = data.filter { it.RAW != null && it.DISPLAY != null }
+                coinMutedListSearch = validData.toMutableList()
+                coinAdapter.updateData(validData)
 
-                }
-
-                coinAdapter.updateData(data)
             }
 
             override fun onError(errorMessage: String) {
@@ -96,4 +95,23 @@ class exploreFragment : Fragment() {
 
     }
 
+    //this is one is for search on items
+    private fun searchItemList() {
+        binding.searchBoxMdExplore.addTextChangedListener { text: Editable? ->
+            val query = text.toString().lowercase()
+            if (query.isEmpty()) {
+                coinAdapter.updateData(coinMutedListSearch)
+                return@addTextChangedListener
+            }
+            val filteredData = coinMutedListSearch.filter { coinData ->
+                val fullName = coinData.CoinInfo.FullName?.lowercase() ?: ""
+                val name = coinData.CoinInfo.Name?.lowercase() ?: ""
+                val id = coinData.CoinInfo.Id?.lowercase() ?: ""
+                fullName.contains(query) || name.contains(query) || id.contains(query)
+            }
+            coinAdapter.updateData(filteredData)
+
+
+        }
+    }
 }

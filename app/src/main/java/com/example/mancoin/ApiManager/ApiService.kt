@@ -27,7 +27,7 @@ interface ApiService {
     @GET("top/totalvolfull")
     fun getTopCoinsExplore(
         @Query("tsym") toSymbol: String = "USD",
-        @Query("limit") limit: Int = 30
+        @Query("limit") limit: Int = 100
     ): Call<ApiResponse>
 
 

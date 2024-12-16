@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mancoin.ApiManager.IMAGE_BASE_URL
@@ -76,8 +77,11 @@ class CoinAdapter(private var data: List<CoinData>) :
                     .with(binding.root)
                     .load(IMAGE_BASE_URL + coinData.RAW.USD.IMAGEURL)
                     .into(binding.imgCoinRecMdHome)
+            } else{
+                Log.d("BIND_VIEW_N", "Skipped item: ${coinData.CoinInfo.FullName}")
             }
         }
+
 
     }
 
@@ -95,10 +99,14 @@ class CoinAdapter(private var data: List<CoinData>) :
 
     override fun getItemCount() = data.size
 
+    //use by diff callback for have better response also for search is useful
     fun updateData(newData: List<CoinData>) {
+        val diffCallback = CoinDiffCallback(data, newData)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         data = newData
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
+
 
 
 

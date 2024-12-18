@@ -16,6 +16,9 @@
         android:theme="@style/AppTheme.Dark"
         tools:targetApi="31">
         <activity
+            android:name=".activities.NewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.MarketActivity"
             android:exported="true">
             <intent-filter>
@@ -24,6 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.CoinActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

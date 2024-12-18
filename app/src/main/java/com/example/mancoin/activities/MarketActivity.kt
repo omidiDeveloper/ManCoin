@@ -1,6 +1,5 @@
 package com.example.mancoin.activities
 
-import homeFragment
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +10,7 @@ import com.example.mancoin.R
 import com.example.mancoin.databinding.ActivityMarketBinding
 import com.example.mancoin.fragments.exploreFragment
 import com.example.mancoin.fragments.newsFragment
+import homeFragment
 
 class MarketActivity : AppCompatActivity() {
     lateinit var binding : ActivityMarketBinding

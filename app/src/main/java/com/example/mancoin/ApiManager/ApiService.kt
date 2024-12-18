@@ -1,6 +1,7 @@
 package com.example.mancoin.ApiManager
 
 import com.example.mancoin.data.ApiResponse
+import com.example.mancoin.data.NewsResponse
 import com.example.mancoin.data.getNews
 import retrofit2.Call
 import retrofit2.http.GET
@@ -30,5 +31,10 @@ interface ApiService {
         @Query("limit") limit: Int = 100
     ): Call<ApiResponse>
 
+    @Headers(API_KEY)
+    @GET("v2/news/")
+    fun newsList(
+        @Query("lang") lang : String = "EN"
+    ): Call<NewsResponse>
 
 }

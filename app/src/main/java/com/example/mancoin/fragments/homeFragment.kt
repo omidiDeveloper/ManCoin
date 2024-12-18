@@ -39,11 +39,14 @@ class homeFragment : Fragment() {
         // Initialize Retrofit and APIManager
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
-        initUI()
         swipeRefresh()
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        initUI()
+    }
     //this function is for show all functions at once =>
     private fun initUI() {
         setupRecyclerView()
@@ -71,8 +74,8 @@ class homeFragment : Fragment() {
 
             override fun onSuccess(data: List<CoinData>) {
                 // find Bitcoin and Ethereum info in our data from server
-                val btcData = data.find { it.CoinInfo.Name == "BTC" }
-                val usdData = data.find { it.CoinInfo.Name == "ETH" }
+                val btcData = data.find { it.CoinInfo?.Name == "BTC" }
+                val usdData = data.find { it.CoinInfo?.Name == "ETH" }
 
                 // به‌روزرسانی UI برای بیت‌کوین و دلار
                 btcData?.let { updateBTCModule(it) }
@@ -80,8 +83,9 @@ class homeFragment : Fragment() {
             }
 
             override fun onError(errorMessage: String) {
-                Toast.makeText(context, "Error fetching data: $errorMessage", Toast.LENGTH_SHORT)
-                    .show()
+                context?.let {
+                    Toast.makeText(it, "Error message", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
@@ -90,18 +94,18 @@ class homeFragment : Fragment() {
     private fun updateBTCModule(btcData: CoinData) {
         binding.apply {
             Glide.with(binding.root)
-                .load(IMAGE_BASE_URL + btcData.RAW.USD.IMAGEURL)
+                .load(IMAGE_BASE_URL + btcData.RAW?.USD?.IMAGEURL)
                 .into(binding.moduleMainMdHome.imgCoinRecMdHome)
 
-            binding.moduleMainMdHome.txtNameCoinMdHome.text = btcData.CoinInfo.Name
+            binding.moduleMainMdHome.txtNameCoinMdHome.text = btcData.CoinInfo?.Name
 
-            val priceValue = btcData.RAW.USD.PRICE
+            val priceValue = btcData.RAW?.USD?.PRICE
             val indexDot = priceValue.toString().indexOf('.')
             binding.moduleMainMdHome.txtPriceWatchlistMdHome.text =
                 priceValue.toString().substring(0, indexDot + 3) + " $"
 
 
-            val changeValue = btcData.RAW.USD.CHANGE24HOUR
+            val changeValue = btcData.RAW?.USD?.CHANGE24HOUR!!
             if (changeValue > 0) {
                 binding.moduleMainMdHome.txtPercentRecMdHome.setTextColor(
                     ContextCompat.getColor(
@@ -140,7 +144,7 @@ class homeFragment : Fragment() {
             }
 
             binding.moduleMainMdHome.txtPlusOrDownRecHome.setTextColor(
-                if (btcData.RAW.USD.CHANGE24HOUR >= 0) Color.GREEN else Color.RED
+                if (btcData.RAW.USD.CHANGE24HOUR!! >= 0) Color.GREEN else Color.RED
             )
         }
     }
@@ -149,18 +153,18 @@ class homeFragment : Fragment() {
     private fun updateUSDModule(ethData: CoinData) {
         binding.apply {
             Glide.with(binding.root)
-                .load(IMAGE_BASE_URL + ethData.RAW.USD.IMAGEURL)
+                .load(IMAGE_BASE_URL + ethData.RAW?.USD?.IMAGEURL)
                 .into(binding.moduleMainMdHome.imgUsdtWatchListMdHome)
 
-            binding.moduleMainMdHome.txtNameUsdtMdHome.text = ethData.CoinInfo.Name
+            binding.moduleMainMdHome.txtNameUsdtMdHome.text = ethData.CoinInfo?.Name
 
-            val priceValue = ethData.RAW.USD.PRICE
+            val priceValue = ethData.RAW?.USD?.PRICE
             val indexDot = priceValue.toString().indexOf('.')
             binding.moduleMainMdHome.txtPriceUsdtWatchlistMdHome.text =
                 priceValue.toString().substring(0, indexDot + 3) + " $"
 
 
-            val changeValue = ethData.RAW.USD.CHANGE24HOUR
+            val changeValue = ethData.RAW?.USD?.CHANGE24HOUR!!
             if (changeValue > 0) {
                 binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.setTextColor(
                     ContextCompat.getColor(
@@ -246,15 +250,20 @@ class homeFragment : Fragment() {
 
             override fun onSuccess(data: List<CoinData>) {
                 data.forEach { coin ->
-                    Log.d("API_DATA", "Coin: ${coin.CoinInfo.FullName}, RAW: ${coin.RAW}")
+                    Log.d("API_DATA", "Coin: ${coin.CoinInfo?.FullName}, RAW: ${coin.RAW}")
                 }
 
                 coinAdapter.updateData(data)
             }
 
             override fun onError(errorMessage: String) {
-                Toast.makeText(requireContext(), "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+                if (isAdded) { // Check if Fragment is attached
+                    activity?.runOnUiThread {
+                        Toast.makeText(requireContext(), "Error fetching data", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
     }
+
 }

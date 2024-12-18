@@ -42,9 +42,13 @@ class exploreFragment : Fragment() {
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
 
-        initUI()
         swipeRefreshLayout()
         searchItemList()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initUI()
     }
 
     private fun initUI() {
@@ -88,7 +92,7 @@ class exploreFragment : Fragment() {
             }
 
             override fun onError(errorMessage: String) {
-                Toast.makeText(requireContext(), "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
                 Log.v("msgErrorGetCoinsExplore", errorMessage)
             }
         })
@@ -104,9 +108,9 @@ class exploreFragment : Fragment() {
                 return@addTextChangedListener
             }
             val filteredData = coinMutedListSearch.filter { coinData ->
-                val fullName = coinData.CoinInfo.FullName?.lowercase() ?: ""
-                val name = coinData.CoinInfo.Name?.lowercase() ?: ""
-                val id = coinData.CoinInfo.Id?.lowercase() ?: ""
+                val fullName = coinData.CoinInfo?.FullName?.lowercase() ?: ""
+                val name = coinData.CoinInfo?.Name?.lowercase() ?: ""
+                val id = coinData.CoinInfo?.Id?.lowercase() ?: ""
                 fullName.contains(query) || name.contains(query) || id.contains(query)
             }
             coinAdapter.updateData(filteredData)

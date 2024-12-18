@@ -12,7 +12,7 @@ class CoinDiffCallback(
     override fun getNewListSize() = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].CoinInfo.Id == newList[newItemPosition].CoinInfo.Id
+        oldList[oldItemPosition].CoinInfo?.Id == newList[newItemPosition].CoinInfo?.Id
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
         oldList[oldItemPosition] == newList[newItemPosition]

@@ -5,7 +5,6 @@ import com.example.mancoin.data.ApiResponse
 import com.example.mancoin.data.CoinData
 import com.example.mancoin.data.NewsItem
 import com.example.mancoin.data.NewsResponse
-import com.example.mancoin.data.TopCoins
 import com.example.mancoin.data.getNews
 import retrofit2.Call
 import retrofit2.Callback

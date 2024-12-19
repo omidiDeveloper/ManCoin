@@ -3,6 +3,8 @@ package com.example.mancoin.ApiManager
 import android.util.Log
 import com.example.mancoin.data.ApiResponse
 import com.example.mancoin.data.CoinData
+import com.example.mancoin.data.NewsItem
+import com.example.mancoin.data.NewsResponse
 import com.example.mancoin.data.TopCoins
 import com.example.mancoin.data.getNews
 import retrofit2.Call
@@ -89,6 +91,25 @@ class ApiManager(apiService: ApiService) {
         })
     }
 
+    fun getLIstNews(apiCallback: ApiCallBack<List<NewsItem>>){
+        apiService.newsList().enqueue(object : Callback<NewsResponse>{
+            override fun onResponse(p0: Call<NewsResponse>, p1: Response<NewsResponse>) {
+                if (p1.isSuccessful && p1.body() != null) {
+                    val data = p1.body()!!.Data
+                    if (data != null) {
+                        apiCallback.onSuccess(data)
+                    }
+                } else {
+                    apiCallback.onError("Response error or body is null")
+                }
+            }
+
+            override fun onFailure(p0: Call<NewsResponse>, p1: Throwable) {
+                Log.v("msgErrorListNews" , p1.message!!)
+            }
+
+        })
+    }
 
 
     interface ApiCallBack<T> {

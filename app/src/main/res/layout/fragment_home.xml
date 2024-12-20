@@ -11,31 +11,55 @@
         android:id="@+id/module_toolbar_md_home"
         layout="@layout/module_toolbar"/>
 
+
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
         android:id="@+id/swipe_refresh_md_home"
         android:layout_height="match_parent">
 
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <include
-                    android:id="@+id/module_main_md_home"
-                    layout="@layout/module_up_home"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <include
+                        android:id="@+id/module_main_md_home"
+                        layout="@layout/module_up_home" />
 
 
-                <include
-                    android:id="@+id/module_coins_md_home"
-                    layout="@layout/module_recycler_home"/>
+                    <include
+                        android:id="@+id/module_coins_md_home"
+                        layout="@layout/module_recycler_home" />
 
-            </LinearLayout>
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/constraint_main"
+                    app:layout_constraintStart_toStartOf="@id/constraint_main"
+                    app:layout_constraintBottom_toBottomOf="@id/constraint_main"
+                    app:layout_constraintEnd_toEndOf="@id/constraint_main"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.core.widget.NestedScrollView>
 

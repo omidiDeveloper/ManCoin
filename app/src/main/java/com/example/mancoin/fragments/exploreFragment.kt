@@ -1,5 +1,7 @@
 package com.example.mancoin.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,17 +16,25 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mancoin.ApiManager.ApiManager
 import com.example.mancoin.ApiManager.RetrofitClient
+import com.example.mancoin.activities.CoinActivity
 import com.example.mancoin.adapter.CoinAdapter
 import com.example.mancoin.data.ApiResponse
+import com.example.mancoin.data.CoinAboutAllData
 import com.example.mancoin.data.CoinData
+import com.example.mancoin.data.NewsItem
+import com.example.mancoin.data.coinAboutItem
 import com.example.mancoin.databinding.FragmentExploreBinding
+import com.example.mancoin.itemEvent.itemEvent
+import com.example.mancoin.itemEvent.itemEvent2
+import com.google.gson.Gson
 
 @Suppress("UNCHECKED_CAST")
-class exploreFragment : Fragment() {
+class exploreFragment : Fragment() , itemEvent2 {
     lateinit var binding: FragmentExploreBinding
     lateinit var apiManager: ApiManager
     lateinit var coinAdapter: CoinAdapter
     private var coinMutedListSearch: MutableList<CoinData> = mutableListOf()
+    lateinit var dataAboutMap : MutableMap<String , coinAboutItem>
 
 
     override fun onCreateView(
@@ -42,6 +52,7 @@ class exploreFragment : Fragment() {
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
 
+        setDataCoinABout()
         swipeRefreshLayout()
         searchItemList()
     }
@@ -73,7 +84,7 @@ class exploreFragment : Fragment() {
 
     //for show data on recycler and show to user
     private fun setupRecyclerView() {
-        coinAdapter = CoinAdapter(emptyList())
+        coinAdapter = CoinAdapter(emptyList() , this)
         binding.recyclerMdExplore.apply {
             adapter = coinAdapter
             layoutManager = LinearLayoutManager(context)
@@ -118,4 +129,49 @@ class exploreFragment : Fragment() {
 
         }
     }
+
+    private fun setDataCoinABout(){
+        val fileInString = activity?.applicationContext?.assets
+            ?.open("currencyinfo.json")
+            ?.bufferedReader()
+            ?.use { it.readText() }
+        val gson = Gson()
+        val dataAboutAll = gson.fromJson(fileInString , CoinAboutAllData::class.java)
+
+        dataAboutMap = mutableMapOf<String , coinAboutItem>()
+
+        dataAboutAll.forEach {
+            dataAboutMap[it.currencyName] = coinAboutItem(
+                it.info.web,
+                it.info.twt,
+                it.info.reddit,
+                it.info.github,
+                it.info.desc
+            )
+        }
+
+
+    }
+
+    override fun onItemClicked(dataSend: CoinData) {
+        val intent = Intent(requireContext(), CoinActivity::class.java)
+        val bundle = Bundle()
+
+        val coinName = dataSend.CoinInfo?.Name
+        if (coinName == null) {
+            Log.e("IntentError", "CoinInfo.Name is null")
+        } else if (!dataAboutMap.containsKey(coinName)) {
+            Log.e("IntentError", "Key not found in dataAboutMap: $coinName")
+        }
+
+        bundle.putParcelable("bundle1", dataSend)
+        bundle.putParcelable("bundle2", dataAboutMap[coinName] ?: coinAboutItem())
+        Log.d("IntentDebug", "Bundle Content: ${bundle.toString()}")
+
+        intent.putExtra("bundle", bundle)
+        startActivity(intent)
+    }
+
+
+
 }

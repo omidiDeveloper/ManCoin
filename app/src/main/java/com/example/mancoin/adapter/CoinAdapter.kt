@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mancoin.ApiManager.IMAGE_BASE_URL
 import com.example.mancoin.R
-import com.example.mancoin.data.ApiResponse
 import com.example.mancoin.data.CoinData
 import com.example.mancoin.databinding.ItemRecyclerCoinViewBinding
+import com.example.mancoin.itemEvent.itemEvent2
 
-class CoinAdapter(private var data: List<CoinData>) :
+class CoinAdapter(private var data: List<CoinData> , private val itemEvent2: itemEvent2) :
     RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
     lateinit var binding: ItemRecyclerCoinViewBinding
 
@@ -79,6 +79,11 @@ class CoinAdapter(private var data: List<CoinData>) :
                     .with(binding.root)
                     .load(IMAGE_BASE_URL + coinData.RAW.USD.IMAGEURL)
                     .into(binding.imgCoinRecMdHome)
+            }
+
+
+            binding.root.setOnClickListener {
+                itemEvent2.onItemClicked(coinData)
             }
         }
 

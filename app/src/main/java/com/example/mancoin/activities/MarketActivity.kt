@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import com.example.mancoin.R
 import com.example.mancoin.databinding.ActivityMarketBinding
 import com.example.mancoin.fragments.exploreFragment
+import com.example.mancoin.fragments.homeFragment
 import com.example.mancoin.fragments.newsFragment
-import homeFragment
 
 class MarketActivity : AppCompatActivity() {
     lateinit var binding : ActivityMarketBinding

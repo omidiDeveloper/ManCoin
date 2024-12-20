@@ -39,13 +39,12 @@ class newsFragment : Fragment() , itemEvent {
         // Initialize Retrofit and APIManager
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
-
+        showDataInRecycler()
         initUI()
     }
 
     private fun initUI() {
         getNewsFromAPi()
-        showDataInRecycler()
         refreshItems()
     }
 
@@ -84,6 +83,5 @@ class newsFragment : Fragment() , itemEvent {
         val intent = Intent(requireContext(), NewsActivity::class.java)
         intent.putExtra("sendNewsData", dataSend)
         startActivity(intent)
-
     }
 }

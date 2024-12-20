@@ -19,16 +19,22 @@ import com.example.mancoin.ApiManager.ApiManager
 import com.example.mancoin.ApiManager.IMAGE_BASE_URL
 import com.example.mancoin.ApiManager.RetrofitClient
 import com.example.mancoin.R
+import com.example.mancoin.activities.CoinActivity
 import com.example.mancoin.adapter.CoinAdapter
+import com.example.mancoin.data.CoinAboutAllData
 import com.example.mancoin.data.CoinData
+import com.example.mancoin.data.coinAboutItem
 import com.example.mancoin.databinding.FragmentHomeBinding
+import com.example.mancoin.itemEvent.itemEvent2
+import com.google.gson.Gson
 
-class homeFragment : Fragment() {
+class homeFragment : Fragment() , itemEvent2{
 
     private lateinit var apiManager: ApiManager
     private lateinit var coinAdapter: CoinAdapter
     private lateinit var binding: FragmentHomeBinding
     lateinit var dataNews: ArrayList<Pair<String, String>>
+    lateinit var dataAboutMap : MutableMap<String , coinAboutItem>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
@@ -41,8 +47,10 @@ class homeFragment : Fragment() {
         // Initialize Retrofit and APIManager
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
-        swipeRefresh()
 
+        setDataCoinABout()
+        swipeRefresh()
+        setupRecyclerView()
     }
 
     override fun onResume() {
@@ -51,7 +59,7 @@ class homeFragment : Fragment() {
     }
     //this function is for show all functions at once =>
     private fun initUI() {
-        setupRecyclerView()
+
         fetchData()
         getNewsFromApi()
         fetchCryptoData()
@@ -139,7 +147,7 @@ class homeFragment : Fragment() {
                 )
                 binding.moduleMainMdHome.txtPercentRecMdHome.text =
                     changeValue.toString().take(5) + "$"
-                binding.moduleMainMdHome.txtPlusOrDownRecHome.text = "- "
+                binding.moduleMainMdHome.txtPlusOrDownRecHome.text = ""
             } else {
                 binding.moduleMainMdHome.txtPercentRecMdHome.text = "0%"
                 binding.moduleMainMdHome.txtPlusOrDownRecHome.text = ""
@@ -199,7 +207,7 @@ class homeFragment : Fragment() {
                 )
                 binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.text =
                     changeValue.toString().take(5) + " $"
-                binding.moduleMainMdHome.txtPlusOrDownUsdtHome.text = "- "
+                binding.moduleMainMdHome.txtPlusOrDownUsdtHome.text = ""
             }
             else {
                 binding.moduleMainMdHome.txtPercentUsdtWatchMdHome.text = "0 %"
@@ -239,7 +247,7 @@ class homeFragment : Fragment() {
 
     //this is for show the data from api to our recycler view =>
     private fun setupRecyclerView() {
-        coinAdapter = CoinAdapter(emptyList())
+        coinAdapter = CoinAdapter(emptyList() ,this)
         binding.moduleCoinsMdHome.recyclerMdHome.apply {
             adapter = coinAdapter
             layoutManager = LinearLayoutManager(context)
@@ -267,5 +275,49 @@ class homeFragment : Fragment() {
             }
         })
     }
+
+
+    private fun setDataCoinABout(){
+        val fileInString = activity?.applicationContext?.assets
+            ?.open("currencyinfo.json")
+            ?.bufferedReader()
+            ?.use { it.readText() }
+        val gson = Gson()
+        val dataAboutAll = gson.fromJson(fileInString , CoinAboutAllData::class.java)
+
+        dataAboutMap = mutableMapOf<String , coinAboutItem>()
+
+        dataAboutAll.forEach {
+            dataAboutMap[it.currencyName] = coinAboutItem(
+                it.info.web,
+                it.info.twt,
+                it.info.reddit,
+                it.info.github,
+                it.info.desc
+            )
+        }
+
+
+    }
+
+    override fun onItemClicked(dataSend: CoinData) {
+        val intent = Intent(requireContext(), CoinActivity::class.java)
+        val bundle = Bundle()
+
+        val coinName = dataSend.CoinInfo?.Name
+        if (coinName == null) {
+            Log.e("IntentError", "CoinInfo.Name is null")
+        } else if (!dataAboutMap.containsKey(coinName)) {
+            Log.e("IntentError", "Key not found in dataAboutMap: $coinName")
+        }
+
+        bundle.putParcelable("bundle1", dataSend)
+        bundle.putParcelable("bundle2", dataAboutMap[coinName] ?: coinAboutItem())
+        Log.d("IntentDebug", "Bundle Content: ${bundle.toString()}")
+
+        intent.putExtra("bundle", bundle)
+        startActivity(intent)
+    }
+
 
 }

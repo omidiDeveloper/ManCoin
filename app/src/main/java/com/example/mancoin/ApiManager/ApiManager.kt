@@ -2,6 +2,7 @@ package com.example.mancoin.ApiManager
 
 import android.util.Log
 import com.example.mancoin.data.ApiResponse
+import com.example.mancoin.data.ChartData
 import com.example.mancoin.data.CoinData
 import com.example.mancoin.data.NewsItem
 import com.example.mancoin.data.NewsResponse
@@ -111,6 +112,71 @@ class ApiManager(apiService: ApiService) {
         })
     }
 
+    fun getChartData(
+        symbol : String , period : String ,
+        apiCallBack: ApiCallBack<Pair<List<ChartData.Data> , ChartData.Data?>>){
+
+        var histoPeriod = ""
+        var limit = 30
+        var aggregate = 1
+
+        when(period){
+
+            HOUR -> {
+                histoPeriod = HISTO_MINUTE
+                limit = 60
+                aggregate = 1
+            }
+
+            HOURS24 -> {
+                histoPeriod = HISTO_HOUR
+                limit = 24
+            }
+
+            WEEK -> {
+                histoPeriod = HISTO_HOUR
+                aggregate = 6
+            }
+
+            MONTH -> {
+                histoPeriod = HISTO_DAY
+                limit = 30
+            }
+
+            MONTH3 -> {
+                histoPeriod = HISTO_DAY
+                limit = 90
+            }
+
+            YEAR -> {
+                histoPeriod = HISTO_DAY
+                aggregate = 13
+            }
+
+            ALL -> {
+                histoPeriod = HISTO_DAY
+                aggregate = 30
+                limit = 2000
+            }
+
+        }
+
+        apiService.getChartData(histoPeriod , symbol , limit , aggregate).enqueue(object  : Callback<ChartData>{
+            override fun onResponse(p0: Call<ChartData>, p1: Response<ChartData>) {
+                val fullData = p1.body()!!
+                val data1 = fullData.data
+                val data2 = fullData.data.maxByOrNull { it.close.toFloat() }
+                val returnData = Pair(data1 , data2)
+                apiCallBack.onSuccess(returnData)
+            }
+
+            override fun onFailure(p0: Call<ChartData>, p1: Throwable) {
+                apiCallBack.onError(p1.message!!)
+            }
+
+        })
+
+    }
 
     interface ApiCallBack<T> {
         fun onSuccess(data: T)

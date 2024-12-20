@@ -4,11 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.example.mancoin.ApiManager.ALL
 import com.example.mancoin.ApiManager.ApiManager
@@ -49,6 +51,17 @@ class CoinActivity : AppCompatActivity() {
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
 
+        setSupportActionBar(binding.moduleToolbarAcCoin.toolbar)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val btnClose =  binding.moduleToolbarAcCoin.imgCloseMdToolbar
+        btnClose.isVisible = true
+        btnClose.setOnClickListener {
+            finish()
+        }
+
+        //get data from intent =>
         val fromIntent = intent.getBundleExtra("bundle")!!
         if (fromIntent != null){
             dataThisCoin = fromIntent.getParcelable<CoinData>("bundle1")!!
@@ -138,10 +151,7 @@ class CoinActivity : AppCompatActivity() {
             binding.moduleChartAcCoin.txtPlusOrDownMdChart.text = "▼"
             binding.moduleChartAcCoin.chartCoinMdChart.lineColor = ContextCompat.getColor(this, R.color.redColor)
         }
-        else{
-            binding.moduleChartAcCoin.txtPercentChangeMdChart.text = "0%"
-            binding.moduleChartAcCoin.txtPlusOrDownMdChart.text = ""
-        }
+
 
         binding.moduleChartAcCoin.chartCoinMdChart.setScrubListener {
             if ( it == null ){
@@ -229,5 +239,15 @@ class CoinActivity : AppCompatActivity() {
 
         binding.moduleStatsAcCoin.txtCirculatingSupplyMdStats.text = dataThisCoin.DISPLAY?.USD?.cIRCULATINGSUPPLY
         binding.moduleStatsAcCoin.txtAlgorithmMdStats.text = dataThisCoin.CoinInfo?.Algorithm
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

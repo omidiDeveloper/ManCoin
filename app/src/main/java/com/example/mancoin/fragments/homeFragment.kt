@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.example.mancoin.ApiManager.IMAGE_BASE_URL
 import com.example.mancoin.ApiManager.RetrofitClient
 import com.example.mancoin.R
 import com.example.mancoin.activities.CoinActivity
+import com.example.mancoin.activities.MarketActivity
 import com.example.mancoin.adapter.CoinAdapter
 import com.example.mancoin.data.CoinAboutAllData
 import com.example.mancoin.data.CoinData
@@ -35,6 +37,7 @@ class homeFragment : Fragment() , itemEvent2{
     private lateinit var binding: FragmentHomeBinding
     lateinit var dataNews: ArrayList<Pair<String, String>>
     lateinit var dataAboutMap : MutableMap<String , coinAboutItem>
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
@@ -48,6 +51,15 @@ class homeFragment : Fragment() , itemEvent2{
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
 
+        //btn listener for change the fragments
+        binding.moduleCoinsMdHome.btnEcploremoreMdHome.setOnClickListener {
+            val activity = requireActivity() as MarketActivity
+            //this is for change the navigation and go to other fragment with function that we made on Market Activity
+            activity.navigateToFragment(exploreFragment(), R.id.bm_nav_explore)
+        }
+
+        progressBar = binding.progressBar
+
         setDataCoinABout()
         swipeRefresh()
         setupRecyclerView()
@@ -60,9 +72,9 @@ class homeFragment : Fragment() , itemEvent2{
     //this function is for show all functions at once =>
     private fun initUI() {
 
-        fetchData()
+        getDataFromApi()
         getNewsFromApi()
-        fetchCryptoData()
+        getBTCandUSDFromAPi()
     }
 
     //for swipe refresh =>
@@ -78,7 +90,7 @@ class homeFragment : Fragment() , itemEvent2{
     }
 
     //this is for find btc and eth coins for set to watch list =>
-    private fun fetchCryptoData() {
+    private fun getBTCandUSDFromAPi() {
         apiManager.getCoinsData(object : ApiManager.ApiCallBack<List<CoinData>> {
 
 
@@ -255,15 +267,16 @@ class homeFragment : Fragment() , itemEvent2{
     }
 
     //this is for show all items when aren't empty =>
-    private fun fetchData() {
+    private fun getDataFromApi() {
+        progressBar.visibility = View.VISIBLE
         apiManager.getCoinsData(object : ApiManager.ApiCallBack<List<CoinData>> {
-
             override fun onSuccess(data: List<CoinData>) {
                 data.forEach { coin ->
                     Log.d("API_DATA", "Coin: ${coin.CoinInfo?.FullName}, RAW: ${coin.RAW}")
                 }
 
                 coinAdapter.updateData(data)
+                progressBar.visibility = View.GONE
             }
 
             override fun onError(errorMessage: String) {
@@ -272,6 +285,7 @@ class homeFragment : Fragment() , itemEvent2{
                         Toast.makeText(requireContext(), "Error fetching data", Toast.LENGTH_SHORT).show()
                     }
                 }
+                progressBar.visibility = View.GONE
             }
         })
     }

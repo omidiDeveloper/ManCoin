@@ -54,4 +54,14 @@ class MarketActivity : AppCompatActivity() {
         transaction.replace(R.id.main, fragment)
         transaction.commit()
     }
+
+    fun navigateToFragment(fragment: Fragment, menuItemId: Int) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.main, fragment)
+        transaction.commit()
+
+        // به‌روزرسانی وضعیت BottomNavigationView
+        binding.bottomNavigation.selectedItemId = menuItemId
+    }
+
 }

@@ -37,8 +37,10 @@ class NewsActivity : AppCompatActivity() {
         binding.toolbarMain.setTitleTextColor(ContextCompat.getColor(this, R.color.primary_dark))
 
 
+        setSupportActionBar(binding.toolbarMain)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
         // Retrieve the NewsItem from the intent

@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -35,7 +36,7 @@ class exploreFragment : Fragment() , itemEvent2 {
     lateinit var coinAdapter: CoinAdapter
     private var coinMutedListSearch: MutableList<CoinData> = mutableListOf()
     lateinit var dataAboutMap : MutableMap<String , coinAboutItem>
-
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
@@ -52,6 +53,7 @@ class exploreFragment : Fragment() , itemEvent2 {
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
 
+        progressBar = binding.progressBar
         setDataCoinABout()
         swipeRefreshLayout()
         searchItemList()
@@ -94,17 +96,20 @@ class exploreFragment : Fragment() , itemEvent2 {
     //for get data from api
     private fun getCoinExploreDataFromAPi() {
 
+        progressBar.visibility = View.VISIBLE
+
         apiManager.getExploreCoinsData(object : ApiManager.ApiCallBack<List<CoinData>> {
             override fun onSuccess(data: List<CoinData>) {
                 val validData = data.filter { it.RAW != null && it.DISPLAY != null }
                 coinMutedListSearch = validData.toMutableList()
                 coinAdapter.updateData(validData)
-
+                progressBar.visibility = View.GONE
             }
 
             override fun onError(errorMessage: String) {
                 Toast.makeText(context, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
                 Log.v("msgErrorGetCoinsExplore", errorMessage)
+                progressBar.visibility = View.GONE
             }
         })
 

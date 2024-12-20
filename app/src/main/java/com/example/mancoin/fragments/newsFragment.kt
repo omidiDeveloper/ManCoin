@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mancoin.ApiManager.ApiManager
@@ -24,6 +25,8 @@ class newsFragment : Fragment() , itemEvent {
     lateinit var apiManager: ApiManager
     lateinit var newsAdapter: NewsAdapter
     private var newsMutedListSearch : MutableList<NewsItem> = mutableListOf()
+    private lateinit var progressBar: ProgressBar
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
@@ -39,6 +42,9 @@ class newsFragment : Fragment() , itemEvent {
         // Initialize Retrofit and APIManager
         val apiService = RetrofitClient.create()
         apiManager = ApiManager(apiService)
+
+        progressBar = binding.progressBar
+
         showDataInRecycler()
         initUI()
     }
@@ -58,15 +64,19 @@ class newsFragment : Fragment() , itemEvent {
     }
 
     private fun getNewsFromAPi() {
+        progressBar.visibility = View.VISIBLE
         apiManager.getLIstNews(object : ApiManager.ApiCallBack<List<NewsItem>> {
             override fun onSuccess(data: List<NewsItem>) {
                 val validData = data.filter { it.title != null && it.imageurl != null }
                 newsMutedListSearch = validData.toMutableList()
                 newsAdapter.updateData(validData) // Use validData instead of data
+
+                progressBar.visibility = View.GONE
             }
 
             override fun onError(errorMessage: String) {
                 Log.v("msgErrorNewsFragment", errorMessage)
+                progressBar.visibility = View.GONE
             }
         })
     }

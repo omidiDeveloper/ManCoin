@@ -10,13 +10,8 @@
 
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+        <item name="spark_SparkViewStyle">@style/MySparkViewStyle</item>
     </style>
-
-
-
-
-
-
 
     <!-- font family for project -->
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
@@ -27,5 +22,12 @@
         <item name="android:fontFamily">@font/roboto_bold</item>
     </style>
 
+    <!--    spark style main-->
+    <style name="MySparkViewStyle" parent="@style/spark_SparkView">
+        <item name="spark_lineColor">@color/primary_dark</item>
+        <item name="spark_lineWidth">3dp</item>
+        <item name="spark_fill">false</item>
+        <item name="spark_baseLineColor">@color/primary_dark</item>
+    </style>
 
 </resources>

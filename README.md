@@ -25,7 +25,9 @@ A Kotlin-based Android application providing comprehensive cryptocurrency market
 
 ## Screenshots
 
-![photo15773283786](https://github.com/user-attachments/assets/a6dd94f8-50bd-4cea-9dc7-958433ca6b55) ![photo15773300584](https://github.com/user-attachments/assets/879b4eeb-236a-4d33-ad11-a3614841f01e)
+![photo15773277273](https://github.com/user-attachments/assets/3022af57-f3b7-4ebc-a48b-559c70b2d740)
+![photo15773283786](https://github.com/user-attachments/assets/a6dd94f8-50bd-4cea-9dc7-958433ca6b55)     || 
+![photo15773300584](https://github.com/user-attachments/assets/879b4eeb-236a-4d33-ad11-a3614841f01e)
 ![photo15773291889](https://github.com/user-attachments/assets/0dff1bb5-39d7-4654-b650-1b236389ab3d)
 
 
